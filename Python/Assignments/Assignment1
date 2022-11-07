@@ -1,0 +1,241 @@
+## Assignment Part-1
+Q1. Why do we call Python as a general purpose and high-level programming language?
+
+Answer: Python is a General purpose and High Level Language because it is easy to understand and the person using
+	  this language is not expected to understand computer language or so called Assembly language in order for
+	  them to create code.
+
+Q2. Why is Python called a dynamically typed language?
+
+Answer: Python makes it easy for us to declare variable as it is not necessary for us to specify the data type while
+	  declaring the variable. Python on its own understands the the data type of the variable based on the value
+	  assigned to it. Also Python takes care in managing the memory as well making it a dynamically typed language.
+
+Q3. List some pros and cons of Python programming language?
+
+Answer: Pros - 1. Very easy to learn and understand
+		   2. Clear and consise syntax making which helps in speed development of code
+		   3. Very Versatile language as Python can not only be used for Software development but many more like
+			Data Science, Creating games, Creating data models etc.
+	  
+	  Cons - 1. Slower runtime than other languages as python is interpreted at runtime rather than compiling code.
+		   2. High Memory consumption
+		   3. No Multithreading. Allows only one sequence of bytecode at a time.
+
+Q4. In what all domains can we use Python?
+
+Answer: Web application, Game Development, ML Applications, AI applications, Data Science
+
+
+Q5. What are variable and how can we declare them?
+
+Answer: Variable is a name given to a specific memory location to which we can assign values. Variables are 
+	  declared as below in Python.
+	
+	Syntax: Var_1 = 10. # This statement basically store value 10 to variable Var_1 and type of variable 
+		  is determined by the value assigned which in this case is Interger.
+
+
+Q6. How can we take an input from the user in Python?
+
+Answer: Syntax for taking Input is:
+	
+	Var_input = input()
+
+	Input() is a funtion allowing us to take inputs from user and assign it to variables.
+
+
+Q7. What is the default datatype of the value that has been taken as an input using input() function?
+
+Answer: Default datatype of the value taken by Input() is  String.
+
+
+Q8. What is type casting?
+
+Answer: Type casting is used when there is a need to change the datatype of a particular variable. If suppose a
+	  String variable having a number is needed to be used in any sort of calculations we use type casting to change
+	  the datatype of the variable from string to integer enabling us to do calculations on that variable.
+
+
+Q9. Can we take more than one input from the user using single input() function? If yes, how? If no, why?
+
+Answer: One Input() function can only take one input at a time but we can utilize one input() function to take multiple inputs 
+	  If we put the input() function inside a loop which allows us to use the same input() funtion and take many inputs
+ 	  by giving a limit on how many inputs we need inside the loop. Or else we will have to use multiple input()
+	  functions to take more than one input.
+
+
+Q10. What are keywords?
+
+Answer: Keywords are actually reserved words in Python which we cannot use for naming any variable or function or any other
+	  identifiers.
+
+Q11. Can we use keywords as a variable? Support your answer with reason.
+
+Answer: We cannot use a keyword as a variable because these are reserved words used by python to understand the program.
+        using these as variable names can confuse the interpreter causing issues in program.
+
+
+Q12. What is indentation? What's the use of indentaion in Python?
+
+Answer:Indentation is a space given before writing a line of code. these are used to indicate a block of code in Python.
+
+
+Q13. How can we throw some output in Python?
+
+Answer: We can use the output() function to print any values in Python.
+
+
+Q14. What are operators in Python?
+
+Answers: Operators are symbols that helps to carry out arithmetic and logical operations in Python.
+
+Q15. What is difference between / and // operators?
+
+Answer: '/' this operator is a normal division or floating point division which provide the correct Quotient for an expression even if the answer contains any decimal points.
+	  "//" this operator is a floor division or integer division which provide the Quotient where the decimal points are not available as it rounds the answer.
+
+
+Q16. Write a code that gives following as an output.
+```
+iNeuroniNeuroniNeuroniNeuron
+```
+
+Answer:
+
+#Logic to print below pattern
+#```
+#iNeuroniNeuroniNeuroniNeuron
+#```
+
+print("```")
+print("iNeuroniNeuroniNeuroniNeuron")
+print("```")
+
+Q17. Write a code to take a number as an input from the user and check if the number is odd or even.
+
+Answer: 
+
+# Taking input for a number from user
+num = int(input("Provide a number : "))
+
+# Logic for checking if number is Odd or Even
+
+if num%2 == 0:
+    print("The Number entered is Even")
+else:
+    print("The NUmber Entered is Odd")
+
+
+
+Q18. What are boolean operator?
+
+Answer: These are words used as conjuctions where we need to execute one or more logical expressions to include or exclude data to get a more focused result.
+
+
+Q19. What will the output of the following?
+```
+1 or 0   => 1
+
+0 and 0  => 0
+
+True and False and True => False
+
+1 or 0 or 0 => 1
+```
+
+Q20. What are conditional statements in Python?
+
+Answer: These statements (IfElse, Elif, Nested If ) directs the execution of the statements mentioned as a part of it. Basically these can 
+        be used to execute certain statements of the code on basisi of some conditions.
+
+Q21. What is use of 'if', 'elif' and 'else' keywords?
+
+Answer: These keywords can be used to control the flow of a program allowing us to execute specific blocks of code depending on specifix conditions only if the conditions are satisfied will the block of code execute
+
+
+Q22. Write a code to take the age of person as an input and if age >= 18 display "I can vote". If age is < 18 display "I can't vote".
+
+Answer:
+# Taking age as input from User
+
+age = int(input("Please Enter Age : "))
+
+#Logic to find out if the person is eligible to vote (Age>18)
+
+if age>=18 :
+    print("I can Vote")
+else:
+    print("I can't Vote")
+
+
+
+Q23. Write a code that displays the sum of all the even numbers from the given list.
+```
+numbers = [12, 75, 150, 180, 145, 525, 50]
+```
+Answers: 
+
+
+
+With Loop:
+# List of numbers which will used as input
+numbers = [12, 75, 150, 180, 145, 525, 50]
+
+# declaring a variable to calculate and store sum
+sum = 0
+
+#Logic for calculating sum of even numbers
+for i in numbers:
+    if i%2 ==0:
+        sum = sum + i
+
+# printing the output
+print(sum)
+
+
+Q24. Write a code to take 3 numbers as an input from the user and display the greatest no as output.
+
+Answer: 
+# Taking input from user
+num1 = int(input("Please Enter First Number: "))
+num2 = int(input("Please Enter Second Number: "))
+num3 = int(input("Please Enter Third Number: "))
+
+#Logic to find greatest number
+if (num1 >= num2) & (num1 >= num3):
+    print("Greatest Number is: ",num1)
+elif (num2 >= num1) & (num2 >= num3):
+    print("Greatest Number is: ",num2)
+else:
+    print("Greatest Number is: ",num3)
+
+
+Q25. Write a program to display only those numbers from a list that satisfy the following conditions
+
+- The number must be divisible by five
+
+- If the number is greater than 150, then skip it and move to the next number
+
+- If the number is greater than 500, then stop the loop
+```
+numbers = [12, 75, 150, 180, 145, 525, 50]
+```
+
+Answer:
+#List of numbers considered as input.
+numbers = [12, 75, 150, 180, 145, 525, 50]
+
+#Logic to print the number which satisfy following condition
+#The number must be divisible by five
+#If the number is greater than 150, then skip it and move to the next number
+#If the number is greater than 500, then stop the loop
+
+for i in numbers:
+    if i % 5 == 0:
+        if i > 500:
+            break
+        elif i > 150:
+            continue
+        else:
+            print(i)
