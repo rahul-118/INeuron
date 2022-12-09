@@ -38,36 +38,89 @@ Answer: We can use replace() function and replace for NaN values.
 
 Q9. How do you concatenate two Pandas DataFrames?
 
-Answer: 
+Answer: We can concatenate two dataframes using concat function
+        example: pd.concat([df1, df2], axis=0)
+        axis = 0 -> vertical concat
+        axis = 1 -> Horizontal concat
 
 Q10. How do you merge two Pandas DataFrames on a specific column?
 
+Answer: We can use merge function of pandas to merge two data frames
+        example: df.merge(df2[['col1', 'col2']])
+
 Q11. How do you group data in a Pandas DataFrame by a specific column and apply an aggregation function?
+
+Answer: We can use groupby to group and agg to aggregate.
+        df.groupby(['col1', 'col2']).agg({'col3': ['sum']})
 
 Q12. How do you pivot a Pandas DataFrame?
 
+Answer: Dataframe has a function called pivot which we can use to create a pivot table.
+        example: df.pivot(index='col1', columns='col2', values='col3')
+
 Q13. How do you change the data type of a column in a Pandas DataFrame?
+
+Answer: astype() funtion can be used to change the datatype of a datafram.
+        example: df_str = df.astype(str)
 
 Q14. How do you sort a Pandas DataFrame by a specific column?
 
+Answer: We can use sort_values() to sort a dataframe by a particluar column
+        example: sorted_df = df.sort_values(by='col_name')
+
 Q15. How do you create a copy of a Pandas DataFrame?
+
+Answer: Copy() function can be used to create a deep or shallow copy
+        example: df1 = df.copy() -> deep copy by default
+                df1 = df.copy(deep = False)
 
 Q16. How do you filter rows of a Pandas DataFrame by multiple conditions?
 
+Answer: We can filter dataframes by useing the operators &(And), |(Or), ~(Not)
+        
+
 Q17. How do you calculate the mean of a column in a Pandas DataFrame?
+
+Answer: We can use describe to get insight which include mean or we can use mean() function
+        Example: df2 = df["col"].mean()
+                 df.describe()
 
 Q18. How do you calculate the standard deviation of a column in a Pandas DataFrame?
 
+Answer: we can use the std() function
+        example: df2 = df["col"].std()
+
 Q19. How do you calculate the correlation between two columns in a Pandas DataFrame?
+
+Answer: We can calculate correlation of two columns using function corr()
+        example: df['col1'].corr(df['col2'])
 
 Q20. How do you select specific columns in a DataFrame using their labels?
 
+Answer: we can use [] to get specific column by giving the column name in the brackets.
+
 Q21. How do you select specific rows in a DataFrame using their indexes?
+
+Answer: We can use the indes iloc() or loc() to get rows from a dataframe based on if its user created of system index.
 
 Q22. How do you sort a DataFrame by a specific column?
 
+Answer: We can sort usint sort_values() function.
+        Example:sorted_df = df.sort_values(by='col_name')
+
 Q23. How do you create a new column in a DataFrame based on the values of another column?
+
+Answer: We can use the arithmatic ways to combine two columns and store in a new column like:
+        df["Col3"] = df["Col1"] + df["Col2"]
+        or
+        we can use max, min etc functions to create new column form another columns
 
 Q24. How do you remove duplicates from a DataFrame?
 
+Answer: To remove duplicates from a DataFrame we can use df.drop_duplicates()
+
 Q25. What is the difference between .loc and .iloc in Pandas?
+
+Answer: loc[] is used to select rows and columns by name/labels.
+        iloc[] is used to select rows and columns by Integer Index/Position. These are system created index values.
+        
