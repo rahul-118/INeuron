@@ -1,20 +1,44 @@
 Q1. How do you load a CSV file into a Pandas DataFrame?
 
+Answer: For reading csv we can use the below function.
+        df = pd.read_csv('link to csv file')
+
 Q2. How do you check the data type of a column in a Pandas DataFrame?
+
+Answer: For checking data type of a column we can use the function dtypes. 
+        example: df.dtypes -> output will be datatype of all columns 
 
 Q3. How do you select rows from a Pandas DataFrame based on a condition?
 
+Answer:  We can use the loc[] to get rows from a dataframe.
+        example: df.loc[1]
+
 Q4. How do you rename columns in a Pandas DataFrame?
+
+Answer: for renaming a column name we can use rename() function.
 
 Q5. How do you drop columns in a Pandas DataFrame?
 
+Answer: to drop we can use drop function.
+        example: df.drop('Col', axis = 1, inplace = True)
+
 Q6. How do you find the unique values in a column of a Pandas DataFrame?
+
+Answer: we can use the uniwue function to get the unique values of a column.
+        example: df['col_name'].unique()
 
 Q7. How do you find the number of missing values in each column of a Pandas DataFrame?
 
+Answer: We can use isNull() to get the null values and use sum to get the count.
+        example: df.isnull().sum()
+
 Q8. How do you fill missing values in a Pandas DataFrame with a specific value?
 
+Answer: We can use replace() function and replace for NaN values.
+
 Q9. How do you concatenate two Pandas DataFrames?
+
+Answer: 
 
 Q10. How do you merge two Pandas DataFrames on a specific column?
 
