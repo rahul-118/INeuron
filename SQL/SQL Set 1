@@ -38,6 +38,13 @@ Ans: Select distinct city from station where id % 2 == 0;
 Q9. Find the difference between the total number of CITY entries in the table and the number of
 distinct CITY entries in the table.
 
+Ans: SELECT (count(CITY) - count(DISTINCT CITY)) as DIFFERENCE
+FROM STATION;
+
+Q10. Query the two cities in STATION with the shortest and longest CITY names, as well as their
+respective lengths (i.e.: number of characters in the name). If there is more than one smallest or
+largest city, choose the one that comes first when ordered alphabetically.
+
 Ans: 
 
 
