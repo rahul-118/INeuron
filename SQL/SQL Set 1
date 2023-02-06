@@ -45,6 +45,71 @@ Q10. Query the two cities in STATION with the shortest and longest CITY names, a
 respective lengths (i.e.: number of characters in the name). If there is more than one smallest or
 largest city, choose the one that comes first when ordered alphabetically.
 
-Ans: 
+Ans: SELECT CITY, LENGTH(CITY) FROM STATION ORDER BY LENGTH(CITY) ASC, CITY ASC LIMIT 1; 
+     SELECT CITY, LENGTH(CITY) FROM STATION ORDER BY LENGTH(CITY) DESC, CITY ASC LIMIT 1;
+
+Q11. Query the list of CITY names starting with vowels (i.e., a, e, i, o, or u) from STATION. Your result
+cannot contain duplicates.
 
 
+Ans: SELECT DISTINCT CITY FROM STATION where  CITY Regexp '^[aeiou].*$'
+
+Q12. Query the list of CITY names ending with vowels (a, e, i, o, u) from STATION. Your result cannot
+contain duplicates
+
+Ans: SELECT DISTINCT CITY FROM STATION WHERE CITY  Regexp '^.*[aeiou]$';
+
+Q13. Query the list of CITY names from STATION that do not start with vowels. Your result cannot
+contain duplicates.
+
+Ans: SELECT DISTINCT CITY FROM STATION where not CITY Regexp '^[aeiou].*$'
+
+Q14. Query the list of CITY names from STATION that do not end with vowels. Your result cannot
+contain duplicates.
+
+Ans: SELECT DISTINCT CITY FROM STATION WHERE NOT CITY  Regexp '^.*[aeiou]$';
+
+Q15. Query the list of CITY names from STATION that either do not start with vowels or do not end
+with vowels. Your result cannot contain duplicates.
+
+Ans: SELECT DISTINCT CITY FROM STATION where not CITY Regexp '^[aeiou].*$' or not CITY  Regexp '^.*[aeiou]$';
+
+Q16. Query the list of CITY names from STATION that do not start with vowels and do not end with
+vowels. Your result cannot contain duplicates
+
+
+Ans: SELECT DISTINCT CITY FROM STATION where not CITY Regexp '^[aeiou].*$' and not CITY  Regexp '^.*[aeiou]$';
+
+Q17.Write an SQL query that reports the products that were only sold in the first quarter of 2019. That is,
+between 2019-01-01 and 2019-03-31 inclusive.
+Return the result table in any orde
+
+Ans: SELECT p.product_id, p.product_name 
+     FROM product as p inner join sales as s 
+     ON p.product_id = s.product_id
+     WHERE product_id NOT IN (SELECT product_id  FROM Sales WHERE sale_date > '2019-03-31') 
+     GROUP BY p.product_id;
+     
+Q18.Write an SQL query to find all the authors that viewed at least one of their own articles.
+Return the result table sorted by id in ascending order
+
+Ans: SELECT DISTINCT author_id from views where author_id = viewer_id ORDER BY author_id ASC;
+
+Q19.Write an SQL query to find the percentage of immediate orders in the table, rounded to 2 decimal
+places.
+
+Ans: SELECT ROUND(COUNT(select * from delivery where order_date = customer_pref_delivery_date)*100/COUNT(order_date),2) immediate_percentage  FROM delivery;
+
+Q20.Write an SQL query to find the ctr of each Ad. Round ctr to two decimal points.
+Return the result table ordered by ctr in descending order and by ad_id in ascending order in case of a
+tie
+
+Ans: SELECT DISTINCT ad_id, 
+     ROUND
+     ( 100 * COALESCE(
+      SUM(action = 'Clicked') OVER (PARTITION BY ad_id) / 
+      SUM(action IN ('Clicked', 'Viewed')) OVER (PARTITION BY ad_id)
+      , 0),2) ctr FROM ads;
+ 
+ 
+     
