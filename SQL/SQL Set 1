@@ -111,5 +111,37 @@ Ans: SELECT DISTINCT ad_id,
       SUM(action IN ('Clicked', 'Viewed')) OVER (PARTITION BY ad_id)
       , 0),2) ctr FROM ads;
  
- 
+Q21.Write an SQL query to find the team size of each of the employees.
+Return result table in any order
+
+Ans: SELECT e.employee_id, r.team_size
+     FROM qmployee as e INNER JOIN (SELECT team_id,COUNT(*) as team_size FROM employee GROUP BY team_id ) as r
+     ON e.team_id = r.team_id;
+
+Q22.Write an SQL query to find the type of weather in each country for November 2019.
+The type of weather is:
+● Cold if the average weather_state is less than or equal 15,
+● Hot if the average weather_state is greater than or equal to 25, and
+● Warm otherwise
+
+Ans: SELECT c.country_name,
+     (
+     CASE w.weather_state
+     (
+       WHEN SUM(w.weather_state/COUNT(w.day)) <= 15 THEN 'Cold'
+       WHEN SUM(w.weather_state/COUNT(w.day)) >= 25 THEN 'Hot'
+       ELSE 'Warm'
+       END
+     )
+     ) as w.weather_type
+     FROM country as c INNER JOIN weather as w
+     ON c.country_id = w.country_id
+     WHERE w.day between '2019-11-01' and '2019-11-30'
+     GROUP BY country_name;
+     
+Q23.Write an SQL query to find the average selling price for each product. average_price should be
+rounded to 2 decimal places.
+Return the result table in any order
+
+Ans: 
      
