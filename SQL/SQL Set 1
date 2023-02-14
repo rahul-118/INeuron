@@ -174,3 +174,103 @@ FROM (
  	) t1
  WHERE event_date = first_login
      
+ Q26.Write an SQL query to get the names of products that have at least 100 units ordered in February 2020
+and their amount.
+Return result table in any order.
+
+Ans: SELECT p.product_name, SUM(o.units) as unit FROM products as p INNER JOIN orders as o 
+     ON  p.product_id = o.product_id 
+     WHERE DATE_FORMAT(0.order_date, '%Y-%m') = '2020-02'
+     GROUP BY p.product_name
+     HAVING SUM(units) >=100;
+     
+ Q27.Write an SQL query to find the users who have valid emails.
+A valid e-mail has a prefix name and a domain where:
+● The prefix name is a string that may contain letters (upper or lower case), digits, underscore
+'_', period '.', and/or dash '-'. The prefix name must start with a letter.
+● The domain is '@leetcode.com'.
+
+Ans: select *  from Users
+     where  mail regexp '^[A-Za-z][A-Za-z0-9\_\.\-]*@leetcode\.com$';
+     
+ Q28.Write an SQL query to report the customer_id and customer_name of customers who have spent at
+least $100 in each month of June and July 2020.
+
+Ans: select customer_id, name
+from
+(
+    select o.customer_id, c.name,
+        sum(case when left(o.order_date,7) = '2020-06' then p.price * o.quantity end) as JuneSpend,
+        sum(case when left(o.order_date,7) = '2020-07' then p.price * o.quantity end) as JulySpend
+    from Orders o
+    left join Customers c on o.customer_id = c.customer_id
+    left join Product p on o.product_id = p.product_id
+    group by o.customer_id
+    having JuneSpend >= 100 and JulySpend >= 100
+) as temp;
+
+Q29.Write an SQL query to report the distinct titles of the kid-friendly movies streamed in June 2020.
+
+Ans: SELECT DISTINCT title
+FROM TVProgram LEFT JOIN Content USING (content_id)
+WHERE 
+    program_date BETWEEN "2020-06-01" AND "2020-06-30"
+    AND Kids_content = "Y" 
+    AND content_type = "Movies";
+    
+ Q30. Write an SQL query to find the npv of each query of the Queries table
+ 
+ Ans: SELECT 
+    id, 
+    year, 
+    IFNULL(npv, 0) AS npv
+FROM 
+    Queries
+    LEFT JOIN NPV USING (id, year);
+    
+Q31. Write an SQL query to show the unique ID of each user, If a user does not have a unique ID replace just
+show null.
+
+Ans:SELECT
+    unique_id,
+    name
+FROM (
+SELECT
+    e.id, 
+    e.name,
+    eu.unique_id
+FROM EMployees as e LEFT JOIN EmployeeUNI as eu
+ON e.id = eu.id
+    ) x;
+    
+ Q32.Write an SQL query to report the distance travelled by each user.
+Return the result table ordered by travelled_distance in descending order, if two or more users
+travelled the same distance, order them by their name in ascending order
+
+Ans: SELECT
+    u.name,
+    IFNULL(SUM(distance),0) as travelled_distance
+FROM Users as u LEFT JOIN Rides as r
+ON r.user_id = u.id
+GROUP BY 1
+ORDER BY 2 DESC, 1;
+
+Q33. Write an SQL query to get the names of products that have at least 100 units ordered in February 2020
+and their amount.
+
+Ans: SELECT
+    t2.product_name,
+    t1.unit
+FROM (
+SELECT
+    product_id,
+    SUM(unit) as unit
+FROM Orders
+WHERE DATE_FORMAT(order_date, '%Y-%m') = '2020-02'
+GROUP BY 1
+HAVING SUM(unit) >= 100
+    ) as t1 JOIN Products as t2
+ON t1.product_id = t2.product_id;
+
+
+
