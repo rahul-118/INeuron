@@ -272,5 +272,49 @@ HAVING SUM(unit) >= 100
     ) as t1 JOIN Products as t2
 ON t1.product_id = t2.product_id;
 
+Q34. Write an SQL query to:
+● Find the name of the user who has rated the greatest number of movies. In case of a tie,
+return the lexicographically smaller user name.
+● Find the movie name with the highest average rating in February 2020. In case of a tie, return
+the lexicographically smaller movie name.
 
+Ans: (
+select name
+from users u
+join (
+    select user_id, count(*) cnt
+    from movie_rating
+    group by user_id
+    order by cnt
+    limit 1) f1
+on u.user_id = f1.user_id)
+union
+(
+select title
+from movies m
+join (
+    select movie_id, avg(rating) avgr
+    from movie_rating
+    where left(created_at,7) = '2020-02'
+    group by movie_id
+    order by avgr
+    limit 1) f2
+on m.movie_id = f2.movie_id)
+
+Q35.Write an SQL query to report the distance travelled by each user.
+Return the result table ordered by travelled_distance in descending order, if two or more users
+travelled the same distance, order them by their name in ascending order.
+
+
+Ans: select u.name as name, if(r.distance is null, 0, sum(r.distance)) as travelled_distance
+from Users u
+left join Rides r
+on u.id = r.user_id
+group by u.id
+order by travelled_distance desc, name
+
+36.Write an SQL query to show the unique ID of each user, If a user does not have a unique ID replace just
+show null.
+
+Ans: 
 
