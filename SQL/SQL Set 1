@@ -316,5 +316,203 @@ order by travelled_distance desc, name
 36.Write an SQL query to show the unique ID of each user, If a user does not have a unique ID replace just
 show null.
 
-Ans: 
+Ans: SELECT
+    unique_id,
+    name
+FROM (
+SELECT
+    e.id, 
+    e.name,
+    eu.unique_id
+FROM EMployees as e LEFT JOIN EmployeeUNI as eu
+ON e.id = eu.id
+    ) x
+    
+Q37.Write an SQL query to find the id and the name of all students who are enrolled in departments that no
+longer exist.
+Return the result table in any order
 
+Ans:select id, name from Students where department_id not in (select id from Departments);
+
+Q38.Write an SQL query to report the number of calls and the total call duration between each pair of
+distinct persons (person1, person2) where person1 < person2.
+
+Ans: select from_id as person1,to_id as person2,
+    count(duration) as call_count, sum(duration) as total_duration
+from (select * 
+      from Calls 
+      
+      union all
+      
+      select to_id, from_id, duration 
+      from Calls) t1
+where from_id < to_id
+group by person1, person2
+
+Q39.Write an SQL query to find the average selling price for each product. average_price should be
+rounded to 2 decimal places.
+
+
+Ans: select p.product_id, 
+    round(sum(p.price * u.units)/sum(u.units), 2) as average_price
+from Prices p
+left join UnitsSold u
+on p.product_id = u.product_id and 
+    datediff(u.purchase_date, p.start_date) >= 0 and
+    datediff(p.end_date, u.purchase_date) >= 0
+group by p.product_id;
+
+
+Q40.Write an SQL query to report the number of cubic feet of volume the inventory occupies in each
+warehouse.
+
+
+Ans:select warehouse_name, sum(volume) as volume from (
+    select w.name as warehouse_name, w.product_id, w.units * Width * Length * Height as volume
+    from Warehouse w left join Products p on w.product_id = p.product_id
+) t group by warehouse_name;
+
+Q41. Write an SQL query to report the difference between the number of apples and oranges sold each day.
+
+Ans: SELECT
+    sale_date,
+    total_apples_sold - total_oranges_sold as diff
+FROM (
+SELECT
+    sale_date,
+    SUM(CASE WHEN fruit = 'apples' THEN sold_num ELSE 0 END) as total_apples_sold,
+    SUM(CASE WHEN fruit = 'oranges' THEN sold_num ELSE 0 END) as total_oranges_sold
+FROM Sales
+GROUP BY 1
+    ) x
+ORDER BY 1
+
+Q42. Write an SQL query to report the fraction of players that logged in again on the day after the day they
+first logged in, rounded to 2 decimal places. In other words, you need to count the number of players
+that logged in for at least two consecutive days starting from their first login date, then divide that
+number by the total number of players.
+
+Ans:WITH cte AS (
+SELECT player_id, MIN(event_date) as first_login
+FROM Activity
+GROUP BY player_id
+)
+
+SELECT ROUND(SUM(CASE WHEN DATEDIFF(event_date, first_login)=1 THEN 1 ELSE 0  END) / COUNT(DISTINCT cte.player_id), 2) as fraction
+FROM Activity as a
+JOIN cte 
+ON a.player_id = cte.player_id;
+
+Q43.Write an SQL query to report the managers with at least five direct reports.
+
+Ans:select 
+    a.name 
+from 
+    employee a 
+inner join 
+    employee b 
+on (a.id = b.managerid) 
+group by a.name 
+having count(distinct b.id) >= 5
+
+Q44.Write an SQL query to report the respective department name and number of students majoring in
+each department for all departments in the Department table (even ones with no current students).
+Return the result table ordered by student_number in descending order. In case of a tie, order them by
+dept_name alphabetically.
+
+Ans:select 
+    a.dept_name,
+    coalesce(count(student_id), 0) student_number
+from 
+    department a 
+left join
+    student b
+on 
+    (a.dept_id = b.dept_id)
+group by a.dept_name
+order by student_number desc, a.dept_name asc;
+
+Q45.Write an SQL query to report the customer ids from the Customer table that bought all the products in
+the Product tabl
+
+Ans: SELECT
+    customer_id
+FROM customer
+GROUP BY customer_id
+HAVING COUNT( DISTINCT product_key) = (SELECT COUNT(*) FROM product);
+
+Q46.Write an SQL query that reports the most experienced employees in each project. In case of a tie,
+report all employees with the maximum number of experience years.
+
+Ans:select project_id, Project.employee_id
+from Project inner join Employee
+on Project.employee_id = Employee.employee_id
+where (project_id, experience_years) in 
+    (select project_id, max(experience_years) as years
+    from Project inner join Employee
+    on Project.employee_id = Employee.employee_id
+    group by project_id);
+ 
+ Q47.Write an SQL query that reports the books that have sold less than 10 copies in the last year,
+excluding books that have been available for less than one month from today. Assume today is
+2019-06-23.
+
+Ans:select book_id, name 
+from books
+where book_id not in (
+    select book_id 
+    from orders 
+    where (dispatch_date between date_sub('2019-06-23',interval 1 year) and '2019-06-23') 
+    group by (book_id) 
+    having sum(quantity) >= 10)
+and 
+    available_from < date_sub('2019-06-23', interval 1 month);
+    
+ Q48.Write a SQL query to find the highest grade with its corresponding course for each student. In case of
+a tie, you should find the course with the smallest course_id.
+
+Ans:SELECT
+    student_id,
+    course_id,
+    grade
+FROM (
+SELECT
+    student_id,
+    course_id,
+    grade,
+    DENSE_RANK() OVER(PARTITION BY student_id ORDER BY grade DESC, course_id) as rnk
+FROM enrollments
+    ) x
+WHERE rnk=1
+ORDER BY 1 ;
+
+Q49.The winner in each group is the player who scored the maximum total points within the group. In the
+case of a tie, the lowest player_id wins.
+Write an SQL query to find the winner in each group
+
+Ans: select group_id,player_id 
+from (
+    select sc.group_id group_id, sc.player_id player_id, 
+       rank() over (partition by sc.group_id order by sum(sc.score) desc, sc.player_id asc) as rnk 
+    from(
+        select p.group_id group_id,
+         p.player_id player_id ,
+         sum(m.first_score) as score
+        from players p
+        inner join matches m
+        on p.player_id = m.first_player
+        group by p.group_id,p.player_id
+        
+        union all
+        
+        select p.group_id group_id,
+         p.player_id player_id ,
+        sum(second_score) as score
+        from players p
+        inner join matches m
+        on p.player_id = m.second_player
+        group by p.group_id,p.player_id
+    ) sc
+    group by sc.group_id,sc.player_id
+) A 
+where rnk = 1;
