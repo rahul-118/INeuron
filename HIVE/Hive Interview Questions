@@ -1,0 +1,116 @@
+1. What is the definition of Hive? What is the present version of Hive?
+Ans: Hive is a data warehousing service used for analytical queries, built on top of hadoop. Current version of Hive is 3.1.3 released on April 2022.
+
+2. Is Hive suitable to be used for OLTP systems? Why?
+Ans: it is not suitable for OLTP system because it does not offer insert and update at the row level.
+
+3. How is HIVE different from RDBMS? Does hive support ACID transactions. If not then give the proper reason.
+Ans: RDBMS is used to manage database whereas Hive is used to maintain Data warehouse. Hive does support ACID transactions for ORC file format of data.
+
+4. Explain the hive architecture and the different components of a Hive architecture?
+Ans: The Hive architecture is as follows: 
+     1. Thrift Clients: The Hive server is based on Apache Thrift and that is why it can serve requests from Thrift Clients.
+     2. JDBC Clients: Hive allows for the Java based applications to connect to it using JDBC driver.
+     3. ODBC Clients: Hive allows ODBC based applocations (Open DataBase Connectivity) to connect to Hive.
+     4. Hive Server2 : It is the successor of Hive server1, It enables clients to submit requests for execution.Designed to 
+			support JDBC,ODBC,Thrift connections. Hive server 1 doesnt handle concurrent requests from more than 1
+			client, which is resolved in Hive Server 2.
+     5. Hive Driver : It receives HQL statement from users and creates the session handles for the query and sends the query to the
+			compiler. 
+     6. Hive Compiler : It passes the Query. It performs type checking on the different query blocks and query expressions 
+			 by using the metadata stored in the metastore and generates an execution plan. The execution plam
+			 created by the compiler is known as DAG(Directed Acyclic Graph)
+			a) Read employee data
+			b) Filter Data
+			c) Dedup check
+			d) Aggregation
+			e) Write
+     7. Optimizer : It performs the transformation on the execution plan and split task to improve efficiency. 
+     8. Meta Store : It is a central repository which stores the metadata information about the structure of tables, partitions
+		    including columns and datatype. It also stores the information of serielizer and deserielizer required for the
+		    read write operation.
+			In case of derby DB or Internal DB iss Hive is removed then metadata will also be lost. 
+			It doesnt support concurrent requests.
+     9. Execution Engine : After the compilation and optimization steps, it executes the execution plan created by compiler
+			    in order of their dependencies using Hadoop MAP Reduce.
+
+5. Mention what Hive query processor does? And Mention what are the components of a Hive query processor?
+Ans:
+Hive query processor creates a graph out the Sql like query written.
+Components:
+Parse and Semantic Analysis (ql/parse)
+Metadata Layer (ql/metadata)
+Type Interfaces (ql/typeinfo)
+Sessions (ql/session)
+Map/Reduce Execution Engine (ql/exec)
+Plan Components (ql/plan)
+Hive Function Framework (ql/udf)
+Tools (ql/tools)
+Optimizer (ql/optimizer)
+
+6. What are the three different modes in which we can operate Hive?
+Ans:
+Local mode: In Hive local mode, Map Reduce jobs related to Hive run locally on a user machine. This is the default mode in which Hadoop uses local file system.
+Distributed Mode: In this mode, Hive as well as Hadoop is running in a fully distributed mode. NameNode, DataNode, JobTracker, TaskTracker etc run on different machines in this mode.
+Pseudo-distributed Mode: This is the mode used by developers to test the code before deploying to production. In this mode, all the daemons run on same virtual machine. With this mode, we can quickly write scripts and test on limited data sets.
+
+7. Features and Limitations of Hive.
+Ans:
+Features include:
+Its Scalable and fast. it Can process large datasets
+Processed data stored in hdfs and schema stored in DB.
+Limitations:
+Hive doesn't support OLTP. Hive supports Online Analytical Processing (OLAP), but not Online Transaction Processing (OLTP).
+It doesn't support subqueries.
+It has a high latency.
+Hive tables don't support delete or update operations.
+
+8. How to create a Database in HIVE?
+Ans: Create database test_db;
+
+9. How to create a table in HIVE?
+Ans:
+Create table table_name(
+ID int,
+Name string
+) 
+row format delimited
+fields terminated by ',';
+
+10.What do you mean by describe and describe extended and describe formatted with respect to database and table
+Ans: 
+Table-
+Describe: shows list of columns 
+Describe extended: shows list of columns,metadata of table 
+Describe formatted: shows list of columns,metadata of table in tabular format
+
+Database-
+Describe: shows name of db,comments, root file location 
+Describe extended: shows name of db,comments, root file location , dbproperties
+
+11.How to skip header rows from a table in Hive?
+Ans: tblproperties("skip.header.line.count"="1");
+
+12.What is a hive operator? What are the different types of hive operators?
+Ans: hive operators are logic building blocks, 4 types are:
+Relational,logical,arithmetic and complex.
+
+13.Explain about the Hive Built-In Functions
+Ans:round(a),double(a),ceil(a),rand(),concat(A,B)
+
+14. Write hive DDL and DML commands.
+Ams:DDL -
+create,alter,describe
+DML-
+select,insert
+
+15.Explain about SORT BY, ORDER BY, DISTRIBUTE BY and CLUSTER BY in Hive.
+Ans:
+order by- ascending or descending sorting of data globally in one reducer.
+sort by - sorted data per reducer not globally sorted.
+distribute by - distribute the input rows among reducers acc to key
+clusterf by - distribute by + sort by 
+-> data partititoned in reducer  acc. to key
+-> data sorted in each reducer data acc. to key
+
+
