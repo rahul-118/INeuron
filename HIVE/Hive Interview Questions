@@ -113,4 +113,30 @@ clusterf by - distribute by + sort by
 -> data partititoned in reducer  acc. to key
 -> data sorted in each reducer data acc. to key
 
+16.Difference between "Internal Table" and "External Table" and Mention
+when to choose “Internal Table” and “External Table” in Hive?
+
+Ans: Internal Table - Data stored in Hive's data warehouse 
+When dropping table both data and metadata are deleted
+Default table in Hive
+External Table - When you get data from HDFS or any external source
+When dropping the table only metdata is deleted
+External table is like a pointer to data in external source.
+
+Use external table when you have data in an external source and you do not want data to be drop even after drop table.
+Use Internal table when you want Hive to manage data.
+
+17.Where does the data of a Hive table get stored?
+Ans: Data is stored in Data warehouse directory of Hive and metdata is store in metastore.
+
+18.Is it possible to change the default location of a managed table?
+Ans: Yes, we can change the location of a managed table by using the LOCATION '' syntax.
+
+19.What is a metastore in Hive? What is the default database provided by 
+Apache Hive for metastore?
+Ans: Metastore - saves metdata of table , like the no. of columns, partitions etc.
+default database provided by Apache Hive for metastore is derbyDB.
+
+20.Why does Hive not store metadata information in HDFS?
+Ans: Because Hive stores metadata in RDBMS and not in HDFS as RDBMS read/writes are faater.
 
