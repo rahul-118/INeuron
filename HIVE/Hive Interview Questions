@@ -140,3 +140,50 @@ default database provided by Apache Hive for metastore is derbyDB.
 20.Why does Hive not store metadata information in HDFS?
 Ans: Because Hive stores metadata in RDBMS and not in HDFS as RDBMS read/writes are faater.
 
+21.What is a partition in Hive? And Why do we perform partitioning in 
+Hive?
+Ans :Dividing the table in parts based on a column. This is done as the query time is fast as data in storedin slices.
+
+22.What is the difference between dynamic partitioning and static 
+partitioning?
+Ans: Dynamic partitioning: Not sure how many unique values in choosen partition column.
+Takes long time while loading data.
+eg: insert overwrite tablename partition(colname)
+Static Partitioning:value of partition column will be known to us.
+eg: insert overwrite tablename partition(colname = value)
+
+23.How do you check if a particular partition exists?
+Ans: Show partitions tablename
+
+24.How can you stop a partition form being queried?
+Ans: by using ENABLE OFFLINE at the end of alter table clause.
+
+25.Why do we need buckets? How Hive distributes the rows into buckets?
+Ans:Buckets help in decomposing the table into further manageable parts.
+Every bucket is stored as a file inside partition directory or the table directory.
+Hive distributes the rows into buckets usinh hash function.
+
+26.In Hive, how can you enable buckets?
+Ans: set hive.enforce.bucketing = true;
+
+27.How does bucketing help in the faster execution of queries?
+Ans: As the shuffling and sorting job is done prior to any other queries , which helps in optimizing joins.
+
+28.How to optimise Hive Performance? Explain in very detail.
+Ans: 1) Use suitable joins when required : bucket map join, brodscast join, sort merge join
+2)Use hive cost based optimizer
+3)Use TEZ, allows unneccessary access to disk. set.hive.execution.engine = TEZ
+4) select columns only which are required.
+
+29. What is the use of Hcatalog?
+Ans: Hcatalog is a tool used to access hive metastore tables using pig,spark sql and other mapreduce apps.
+
+30. Explain about the different types of join in Hive.
+Ans: Brodcast join - every reducer has one of the tables entire copy which joins with the other table, this is done only when one of the table is small.
+No reducers need to be used in this as no shuffling.
+Bucket map join - Used when both the tables have buckets from the same column and join is done on those buckets
+Used when there are large tables
+Used when the buckets in both tables are multiples of each other.
+Sort merge join
+As the name suggests it sorts teh data first in the reducers and then merges the data.
+
