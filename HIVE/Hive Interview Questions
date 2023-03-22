@@ -187,3 +187,210 @@ Used when the buckets in both tables are multiples of each other.
 Sort merge join
 As the name suggests it sorts teh data first in the reducers and then merges the data.
 
+31.Is it possible to create a Cartesian join between 2 tables, using Hive?
+Ans:Yes, Using join and putting the condition in where clause will create a cartesian join.
+
+32.Explain the SMB Join in Hive?
+Ans:Sort merge bucket  join
+As the name suggests it sorts the data first in the reducers and then merges the data.
+
+33.What is the difference between order by and sort by which one we should 
+use?
+Ans:Order by in hive is the ordering at the global level of reducers
+whereas sort by is sorting locally in a reducer.
+To get complete ordering of data use order by.
+
+34.What is the usefulness of the DISTRIBUTED BY clause in Hive?
+Ans:Distributed by is used Hive to distribute data to reducers with respect to the column mentioned.
+
+35.How does data transfer happen from HDFS to Hive? 
+Ans:data for tables is stored in hdfs or hive's data warehouse directory.
+If you have data in hdfs then create a table in hive with the schema in orc format then you will be able to read.
+
+36.Wherever (Different Directory) I run the hive query, it creates a new 
+metastore_db, please explain the reason for it?
+Ans:Hive checks first that whether the metastore db is created or not and by default the property is set to create it.
+You will have to change that in the configuration file , the property being:
+javax.jdo.option.ConnectionURL
+with the default value:
+jdbc:derby:;databaseName=metastore_db;create=true
+
+37.What will happen in case you have not issued the command: ‘SET 
+hive.enforce.bucketing=true;’ before bucketing a table in Hive?
+Ans:If this is not done the number of files in the table directory will not be equal to the number of buckets.
+
+38.Can a table be renamed in Hive?
+Ans:Yes, by using the ALTER command.
+
+39.Write a query to insert a new column(new_col INT) into a hive table at a 
+position before an existing column (x_col)
+Ans:Alter table tablename
+change column new_col INT
+before old_col;
+
+40.What is serde operation in HIVE?
+Ans:Serde- Serialization and deserilization.
+Serde allows reading of data in hive , in a table and writing it back to hdfs.
+
+41.Explain how Hive Deserializes and serialises the data?
+Ans:Serilization - converting yourobject/ data into bytes
+Deserilization - converting your data in bytes to object
+Rowformat syntax - describes the libraries for conversion.
+Stored as- tells the input and output format for mapreduce.
+
+42.Write the name of the built-in serde in hive.
+Ans:Built in serde's in Hive:
+File format classes-
+TextInputFormat/HiveIgnoreKeyTextOutputFormat: It reads/writes data in plain text file format.
+SequenceFileInputFormat/SequenceFileOutput: It reads/writes data in Hadoop SequenceFile format.
+Similarly there is for CSV,thrift and other formats.
+
+43.What is the need of custom Serde?
+Ans:Custom serde: Required if users want to read their own data format they will have to write their own desiralizer.
+
+44.Can you write the name of a complex data type(collection data types) in 
+Hive?
+Ans:Array,Map,struct
+
+45.Can hive queries be executed from script files? How?
+Ans:Yes,using the source command.
+eg: source <path to hql file>
+
+46.What are the default record and field delimiter used for hive text files?
+Ans:Default record delimiter is : -\n
+Field Delimiters: -\001,\002
+
+47.How do you list all databases in Hive whose name starts with s?
+Ans:Show databases like 's*';
+
+48.What is the difference between LIKE and RLIKE operators in Hive?
+Ans:LIKE: used to search for string in similar text.
+RLIKE : If substring A is RLIKE'd with B then if B has value containing A it will be true.
+
+49.How to change the column data type in Hive?
+Ans:ALTER TABLE table_name CHANGE column_name column_name new_datatype; 
+
+50.How will you convert the string ’51.2’ to a float value in the particular 
+column?
+Ans:cast ('51.2' as float)
+
+51.What will be the result when you cast ‘abc’ (string) as INT?
+Ans:error will occur
+
+52.What does the following query do?
+Ans:a. INSERT OVERWRITE TABLE employees
+b. PARTITION (country, state)
+c. SELECT ..., se.cnty, se.st
+d. FROM staged_employees se;
+Partitioned employees table using country and state and data inserted from staged_employees table.
+
+53.Write a query where you can overwrite data in a new table from the 
+existing table.
+Ans:Insert overwwrite table emp select * from stage_emp;
+
+54.What is the maximum size of a string data type supported by Hive? 
+Ans:Nothing like this is there in hive.
+Explain how Hive supports binary formats.
+Ans:Binary format is array of bytes and it is stored in the records not in BLOBs.
+
+55. What File Formats and Applications Does Hive Support?
+Ans:File formats supported: ORC,Parquet,CSV,textfile.
+Applications: supports all client apps written in java,php,python,ruby,c++
+
+56.How do ORC format tables help Hive to enhance its performance?
+Ans:ORC helps in querying faster as it reduces the data size upto 75%(compressed)
+
+57.How can Hive avoid mapreduce while processing the query?
+Ans:setting the hive.exec.local.auto property to true.
+
+58.What is view and indexing in hive?
+Ans:View are like the ones in SQL, yes you can create a view on a select statement.It is like a snapshot of the columns and dat you need.
+Indexes are the pointers to columns in certain tables.
+
+59.Can the name of a view be the same as the name of a hive table?
+Ans:No, view and table cannot have the same name.
+
+60.What types of costs are associated in creating indexes on hive tables?
+Ans:A processing cost is their while creating indexes as values in the columns need to be arranged on which the indexes are created.
+
+61.Give the command to see the indexes on a table.
+Ans:SHOW INDEX ON TABLE_NAME;
+
+62. Explain the process to access subdirectories recursively in Hive queries.
+Ans:set mapred.input.dir.recursive = true
+
+63.If you run a select * query in Hive, why doesn't it run MapReduce?
+Ans:As this is equivalent to a fetch task and reading the entire file usingh hadoop command.
+
+64.What are the uses of Hive Explode?
+Ans:Explodes array to multiple rows.
+
+65. What is the available mechanism for connecting applications when we 
+run Hive as a server?
+Ans:Thrift Client,JDBC driver and ODBC Driver
+
+66.Can the default location of a managed table be changed in Hive?
+Ans:yes, by giving LOCATION ''
+
+67.What is the Hive ObjectInspector function?
+Ans:Group of APIs to inspect value in different data representation.
+
+68.What is UDF in Hive?
+Ans:user defined function
+
+69.Write a query to extract data from hdfs to hive.
+Ans:load data inpath 'path' into table table_name
+
+70.What is TextInputFormat and SequenceFileInputFormat in hive.
+Ans:SequenceFileInputFormat - It is the type of flatfile which consists of binary key value pairs.
+ combines small files and stores it as a large file
+ TextInputFormat - It can load csv types of files.
+
+71.How can you prevent a large job from running for a long time in a hive?
+Ans:By setting hive.mapred.mode = strict. In this mapreduce exceutes in strict mode.
+
+72.When do we use explode in Hive?
+Ans:When you want to expand nested array.
+
+73.Can Hive process any type of data formats? Why? Explain in very detail
+Ans:Hive supports only textfile,sequencefile,ORC and recordfile .
+
+74.Whenever we run a Hive query, a new metastore_db is created. Why?
+Ans:property is set to auto create.
+You will have to change that in the configuration file , the property being:
+javax.jdo.option.ConnectionURL
+with the default value:
+jdbc:derby:;databaseName=metastore_db;create=true
+
+75.Can we change the data type of a column in a hive table? Write a 
+complete query.
+Ans:ALTER TABLE table_name CHANGE column_name column_name new_datatype; 
+
+76.While loading data into a hive table using the LOAD DATA clause, how 
+do you specify it is a hdfs file and not a local file ?
+Ans:for local: load data local inpath ''
+for hdfs: load data inpath ''
+
+77.What is the precedence order in Hive configuration?
+Ans:Hive set command
+CMD line
+hive-site.xml
+hive-default.xml
+hadoop-site.xml
+hadoop-site.xml
+
+78.Which interface is used for accessing the Hive metastore?
+Ans:WebHcat API
+
+79.Is it possible to compress json in the Hive external table ?
+Ans:you can using Gzip
+
+80.What is the difference between local and remote metastores?
+Ans:local - metastore Runs with JVM (in which hive runs)
+remote- metastore Runs ona different machine than JVM (in which hive runs)
+
+81.What is the purpose of archiving tables in Hive?
+Ans:You can archive files to reduce the number of partition files 
+
+82.What is DBPROPERTY in Hive?
+Ans: Mentions details about the database built by user.
