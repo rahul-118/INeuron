@@ -161,6 +161,8 @@ Download a data from the given location -
 https://archive.ics.uci.edu/ml/machine-learning-databases/00360/
 
 1. Create a hive table as per given schema in your dataset 
+
+
 2. try to place a data into table location
 3. Perform a select operation . 
 4. Fetch the result of the select operation in your local as a csv file . 
