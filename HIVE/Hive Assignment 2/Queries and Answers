@@ -161,20 +161,74 @@ Download a data from the given location -
 https://archive.ics.uci.edu/ml/machine-learning-databases/00360/
 
 1. Create a hive table as per given schema in your dataset 
+Create table AirQuality(
+Date String,
+Time String,
+CO(GT) decimal(2,2),
+PT08.S1(CO)  INT,
+NMHC(GT) INT,
+C6H6(GT) decimal(2,2),
+PT08.S2(NMHC) INT,
+NOx(GT) INT,
+PT08.S3(NOx) INT,
+NO2(GT) INT,
+PT08.S4(NO2) INT,
+PT08.S5(O3) INT,
+T  decimal(2,2),
+RH  decimal(2,2),
+AH  decimal(2,2)
+) 
+row format serde ‘org.apache.hadoop.hive.serde2.OpenCSVSerde’;
 
 
 2. try to place a data into table location
+
 3. Perform a select operation . 
+set hive.cli.print.headers = true;
+select * from AirQuality;
+
 4. Fetch the result of the select operation in your local as a csv file . 
+Insert overwrite local directory '/workspace/AirQuality.csv' select * from AirQuality;
+
 5. Perform group by operation . 
+Select CO(GT) ,Date from AirQuality group by Date;
+
 7. Perform filter operation at least 5 kinds of filter examples . 
+
 8. show and example of regex operation
+select regex_extract(Date,'11(.*)',8);
+
 9. alter table operation 
+Alter table AirQuality RENAME to AirQualityNew;
+
 10 . drop table operation
+Drop table AirQuality;
+
 12 . order by operation . 
+select * from AirQuality order by Date;
+
 13 . where clause operations you have to perform . 
+select * from AirQuality where NMHC(GT) < 2;
+
 14 . sorting operation you have to perform . 
+select * from AirQuality order by Date DESC;
+
 15 . distinct operation you have to perform . 
+select distinct(Date) from AirQuality;
+
 16 . like an operation you have to perform . 
+select * from AirQuality where Date like '21-06-2004';
+
 17 . union operation you have to perform . 
+select distinct(Date) from AirQuality
+union
+select distinct(time) from AirQuality
+
 18 . table view operation you have to perform . 
+create view AirQualityview as
+select * from AirQuality;
+
+
+hive operation with python:
+
+Create a python application that connects to the Hive database for extracting data, creating sub tables for data processing, drops temporary tables.fetch rows to python itself into a list of tuples and mimic the join or filter operations
