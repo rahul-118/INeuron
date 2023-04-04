@@ -1,0 +1,101 @@
+Q101.Write an SQL query to show the second most recent activity of each user.
+If the user only has one activity, return that one. A user cannot perform more than one activity at the
+same time.
+Return the result table in any orde
+
+Ans: 
+SELECT 
+    username,
+    activity,
+    startDate,
+    endDate
+FROM (
+SELECT
+    *,
+    DENSE_RANK() OVER(PARTITION BY username ORDER BY startDate DESC) as rnk,
+    COUNT(activity) OVER(PARTITION BY username) as cnt
+FROM UserActivity
+    ) x
+WHERE rnk = 2 OR cnt < 2;
+
+Q102.Query the Name of any student in STUDENTS who scored higher than 75 Marks. Order your output by
+the last three characters of each name. If two or more students both have names ending in the same
+last three characters (i.e.: Bobby, Robby, etc.), secondary sort them by ascending ID.
+
+Ans: SELECT name FROM students WHERE marks>75 ORDER BY SUBSTRING(name, -3, 3), id;
+
+Q103.Write a query that prints a list of employee names (i.e.: the name attribute) for employees in
+Employee having a salary greater than $2000 per month who have been employees for less than 10
+months. Sort your result by ascending employee_id
+
+Ans: SELECT name FROM employee WHERE salary > 2000 AND months < 10 ORDER BY employee_id;
+
+Q104.Write a query identifying the type of each record in the TRIANGLES table using its three side lengths.
+Output one of the following statements for each record in the table:
+● Equilateral: It's a triangle with sides of equal length.
+● Isosceles: It's a triangle with sides of equal length.
+● Scalene: It's a triangle with sides of differing lengths.
+● Not A Triangle: The given values of A, B, and C don't form a triangle.
+
+Ans: 
+SELECT CASE
+WHEN ((t.A+t.B) <=t.c ) THEN 'Not A Triangle'
+WLSE
+    CASE
+    WHEN (t.A=t.B) AND (t.B=t.c) THEN 'Equilateral'
+    ELSE
+        CASE
+        WHEN (t.A = t.B) or (t.A = t.C) or (t.B = t.C) THEN 'Isosceles'
+        ELSE
+            'Scalene'
+        END
+    END
+END
+FROM triangles as t;
+
+Q105.Samantha was tasked with calculating the average monthly salaries for all employees in the
+EMPLOYEES table, but did not realise her keyboard's 0 key was broken until after completing the
+calculation. She wants your help finding the difference between her miscalculation (using salaries
+with any zeros removed), and the actual average salary.
+Write a query calculating the amount of error (i.e.: actual - miscalculated average monthly salaries),
+and round it up to the next integer.
+
+Ans:SELECT CEIL(AVG(salary)) - AVG(REPLACE(salary,'0','')) FROM EMPLOYEES;
+
+Q106.We define an employee's total earnings to be their monthly salary * months worked, and the
+maximum total earnings to be the maximum total earnings for any employee in the Employee table.
+Write a query to find the maximum total earnings for all employees as well as the total number of
+employees who have maximum total earnings. Then print these values as 2 space-separated
+integers
+
+Ans: SELECT MAX(months*salary) as earnings, COUNT(month*salary) FROM employee GROUP BY earnings ORDER BY earnings DESC ;
+
+Q107.1. Query an alphabetically ordered list of all names in OCCUPATIONS, immediately followed by
+the first letter of each profession as a parenthetical (i.e.: enclosed in parentheses). For
+example: AnActorName(A), ADoctorName(D), AProfessorName(P), and ASingerName(S).
+Query the number of occurrences of each occupation in OCCUPATIONS. Sort the occurrences in
+ascending order, and output them in the following format:
+Level - Medium
+There are a total of [occupation_count] [occupation]s.
+2. where [occupation_count] is the number of occurrences of an occupation in OCCUPATIONS and
+[occupation] is the lowercase occupation name. If more than one Occupation has the same
+[occupation_count], they should be ordered alphabetically.
+Note: There will be at least two entries in the table for each type of occupation.
+Input Format
+
+Ans:
+SELECT CONCAT(name, '(',left(occupation,1),')') 
+FROM occupations 
+ORDER BY name;
+
+SELECT 'There are a total of ' ,COUNT(occupation) ,CONCAT(lower(occupation), 's.') 
+FROM occupations
+GROUP BY occupation
+ORDER BY COUNT(occupation) ,occupation;
+
+Q108.Pivot the Occupation column in OCCUPATIONS so that each Name is sorted alphabetically and
+displayed underneath its corresponding Occupation. The output column headers should be Doctor,
+Professor, Singer, and Actor, respectively.
+Note: Print NULL when there are no more names corresponding to an occupatiom.
+
+Ans:
