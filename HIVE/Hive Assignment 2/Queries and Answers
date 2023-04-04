@@ -232,3 +232,21 @@ select * from AirQuality;
 hive operation with python:
 
 Create a python application that connects to the Hive database for extracting data, creating sub tables for data processing, drops temporary tables.fetch rows to python itself into a list of tuples and mimic the join or filter operations
+
+import petl as etl
+import pandas as pd
+import cdata.apachehive as mod
+
+cnxn = mod.connect("Server=127.0.0.1;Port=10000;TransportMode=BINARY;")
+
+sql = "SELECT City, CompanyName FROM Customers WHERE Country = 'US'"
+
+table1 = etl.fromdb(cnxn,sql)
+
+table2 = etl.sort(table1,'CompanyName')
+
+etl.tocsv(table2,'customers_data.csv')
+
+table3 = [ ['City','CompanyName'], ['NewCity1','NewCompanyName1'], ['NewCity2','NewCompanyName2'], ['NewCity3','NewCompanyName3'] ]
+
+etl.appenddb(table3, cnxn, 'Customers')
