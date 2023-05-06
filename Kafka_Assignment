@@ -1,0 +1,56 @@
+1.) MySQL Table (Table should have some column like created_at or updated_at so that can be used for incremental read)
+Ans:
+CREATE TABLE my_table (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  data VARCHAR(255),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+2.) Write a python script which is running in infinite loop and inserting 4-5 dummy/dynamically prepared records
+    in MySQL Table
+Ans: 
+import mysql.connector
+import time
+
+# MySQL connection configuration
+config = {
+    'user': 'your_username',
+    'password': 'your_password',
+    'host': 'localhost',
+    'database': 'your_database'
+}
+
+def insert_dummy_records():
+    # Connect to MySQL
+    conn = mysql.connector.connect(**config)
+    cursor = conn.cursor()
+
+    # Prepare the INSERT statement
+    sql = "INSERT INTO my_table (data) VALUES (%s)"
+    dummy_data = ["Record 1", "Record 2", "Record 3", "Record 4", "Record 5"]
+
+    # Insert dummy records
+    for data in dummy_data:
+        cursor.execute(sql, data)
+        conn.commit()
+
+    # Close the cursor and connection
+    cursor.close()
+    conn.close()
+
+while True:
+    insert_dummy_records()
+    time.sleep(1)  # Wait for 1 second before inserting the next set of records
+
+
+3.) Setup Confluent Kafka
+4.) Create Topic
+kafka-topics --create --topic my_topic --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
+
+5.) Create json schema on schema registry (depends on what kind of data you are publishing in mysql table)
+
+6.) Write a producer code which will read the data from MySQL table incrementally (hint : use and maintain create_at column)
+7.) Producer will publish data in Kafka Topic
+8.) Write consumer group to consume data from Kafka topic
+9.) In Kafka consumer code do some changes or transformation for each record and write it in Cassandra table
